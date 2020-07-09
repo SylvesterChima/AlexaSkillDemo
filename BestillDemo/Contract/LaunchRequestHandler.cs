@@ -13,7 +13,7 @@ namespace BestillDemo.Contract
     {
         public Task<SkillResponse> Launch(Session session)
         {
-            string msg = $"Welcome to Be Still. How would you like to start?";
+            string msg = $"Welcome to the Be Still Demo. How would you like to start?";
             Reprompt rp = new Reprompt(msg);
             var response = ResponseBuilder.Ask(msg, rp, session);
             return Task.FromResult(response);

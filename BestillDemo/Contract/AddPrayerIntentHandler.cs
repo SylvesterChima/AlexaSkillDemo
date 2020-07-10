@@ -18,7 +18,7 @@ namespace BestillDemo.Contract
             string msg = "";
             if (string.IsNullOrEmpty(itm))
             {
-                msg = "I didn't get that. Please ask again.";
+                msg = "I didn't get that. Would you like to ask again.";
                 Reprompt er = new Reprompt(msg);
                 var resp = ResponseBuilder.Ask(msg, er, session);
                 return Task.FromResult(resp);

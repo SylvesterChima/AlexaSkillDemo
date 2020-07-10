@@ -49,6 +49,7 @@ namespace BestillDemo
             loggerFactory.AddFile("Logs/myapp.txt");
 
             app.UseHttpsRedirection();
+            app.UseStaticFiles();
             app.UseMvc();
         }
     }

@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using Alexa.NET;
 using Alexa.NET.Request;
@@ -10,6 +12,7 @@ using BestillDemo.Abstract;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 
 namespace BestillDemo.Controllers
 {
@@ -19,18 +22,28 @@ namespace BestillDemo.Controllers
         private readonly IAddPrayerIntentHandler _addPrayerIntentHandler;
         private readonly ILaunchRequestHandler _launchRequest;
         private readonly IArchivePrayerIntentHandler _archivePrayerIntentHandler;
+        private readonly IAddReminderIntentHandler _reminderIntentHandler;
         readonly ILogger<AlexaController> _log;
-        public AlexaController(IAddPrayerIntentHandler addPrayerIntentHandler, ILaunchRequestHandler launchRequest, IArchivePrayerIntentHandler archivePrayerIntentHandler, ILogger<AlexaController> log)
+        public AlexaController(IAddPrayerIntentHandler addPrayerIntentHandler, ILaunchRequestHandler launchRequest, IArchivePrayerIntentHandler archivePrayerIntentHandler, IAddReminderIntentHandler reminderIntentHandler, ILogger<AlexaController> log)
         {
             _addPrayerIntentHandler = addPrayerIntentHandler;
             _launchRequest = launchRequest;
             _archivePrayerIntentHandler = archivePrayerIntentHandler;
+            _reminderIntentHandler = reminderIntentHandler;
             _log = log;
         }
 
         [HttpPost]
-        public SkillResponse bestil([FromBody]SkillRequest input)
+        [Consumes("application/json")]
+        public async Task<SkillResponse> bestil()
         {
+            var dd = "";
+            using (StreamReader reader = new StreamReader(Request.Body, Encoding.UTF8))
+            {
+                dd = await reader.ReadToEndAsync();
+            }
+
+            SkillRequest input = JsonConvert.DeserializeObject<SkillRequest>(dd, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore });
 
             Session session = input.Session;
             SkillResponse response = ResponseBuilder.Empty();
@@ -45,10 +58,13 @@ namespace BestillDemo.Controllers
                 switch (intentRequest.Intent.Name)
                 {
                     case "AddPrayerIntent":
-                        response = _addPrayerIntentHandler.HandleIntent(intentRequest, session).Result;
+                        response = _addPrayerIntentHandler.HandleIntent(input, session).Result;
                         break;
-                    case "ArchivePrayerIntent":
-                        response = _archivePrayerIntentHandler.HandleIntent(intentRequest, session).Result;
+                    case "s":
+                        response = _archivePrayerIntentHandler.HandleIntent(input, session).Result;
+                        break;
+                    case "AddReminderIntent":
+                        response = _reminderIntentHandler.HandleIntent(input, session).Result;
                         break;
                 }
             }

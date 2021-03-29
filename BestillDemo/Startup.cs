@@ -32,6 +32,7 @@ namespace BestillDemo
             services.AddTransient<IArchivePrayerIntentHandler, ArchivePrayerIntentHandler>();
             services.AddTransient<IClearPrayerIntentHandler, ClearPrayerIntentHandler>();
             services.AddTransient<IPrayerIntentHandler, PrayerIntentHandler>();
+            services.AddTransient<IAddReminderIntentHandler, AddReminderIntentHandler>();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
 

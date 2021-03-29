@@ -10,6 +10,6 @@ namespace BestillDemo.Abstract
 {
     public interface IIntentHandler
     {
-        Task<SkillResponse> HandleIntent(IntentRequest input, Session session);
+        Task<SkillResponse> HandleIntent(SkillRequest input, Session session);
     }
 }

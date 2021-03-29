@@ -11,7 +11,7 @@ namespace BestillDemo.Contract
 {
     public class PrayerIntentHandler : IPrayerIntentHandler
     {
-        public Task<SkillResponse> HandleIntent(IntentRequest input, Session session)
+        public Task<SkillResponse> HandleIntent(SkillRequest input, Session session)
         {
             throw new NotImplementedException();
         }

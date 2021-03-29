@@ -12,9 +12,10 @@ namespace BestillDemo.Contract
 {
     public class AddPrayerIntentHandler : IAddPrayerIntentHandler
     {
-        public Task<SkillResponse> HandleIntent(IntentRequest input, Session session)
+        public Task<SkillResponse> HandleIntent(SkillRequest input, Session session)
         {
-            string itm = input.Intent.Slots["item"].Value;
+            IntentRequest request = (IntentRequest)input.Request;
+            string itm = request.Intent.Slots["item"].Value;
             string msg = "";
             if (string.IsNullOrEmpty(itm))
             {

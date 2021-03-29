@@ -12,7 +12,7 @@ namespace BestillDemo.Contract
 {
     public class ArchivePrayerIntentHandler : IArchivePrayerIntentHandler
     {
-        public Task<SkillResponse> HandleIntent(IntentRequest input, Session session)
+        public Task<SkillResponse> HandleIntent(SkillRequest input, Session session)
         {
             string msg = $"Archived successfully";
             Reprompt rp = new Reprompt(msg);
